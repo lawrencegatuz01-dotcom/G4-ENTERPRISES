@@ -498,25 +498,7 @@
 			transition: opacity 0.2s ease;
 		}
 
-		.card.edit-mode:hover::after {
-			opacity: 1;
-		}
 
-		.edit-modal {
-			position: fixed;
-			inset: 0;
-			z-index: 130;
-			display: none;
-			place-items: center;
-			padding: 1rem;
-			background: rgba(3, 3, 6, 0.8);
-			backdrop-filter: blur(6px);
-		}
-
-		.edit-modal.open {
-			display: grid;
-			animation: fadeIn 0.2s ease;
-		}
 
 		.edit-form {
 			width: min(92vw, 600px);
@@ -707,7 +689,6 @@
 					<select class="select" id="categorySelect" aria-label="Filter by category">
 						<option value="all">All Categories</option>
 					</select>
-					<button class="edit-btn" id="editToggleBtn" type="button">✎ Edit Mode</button>
 					<label class="toggle-wrap" for="themeToggle">
 						<span id="themeLabel">Light</span>
 						<button class="toggle" id="themeToggle" type="button" aria-label="Toggle dark mode"></button>
@@ -743,38 +724,6 @@
 				<a id="modalLink" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">View on Shopee</a>
 			</div>
 		</article>
-	</div>
-
-	<div class="edit-modal" id="editModal">
-		<div class="edit-form">
-			<h3>Edit Product</h3>
-			<div class="form-group">
-				<label>Image URL</label>
-				<input type="text" id="editImage" placeholder="https://example.com/image.jpg" />
-				<img id="editPreview" class="edit-preview" src="" alt="Preview" />
-			</div>
-			<div class="form-group">
-				<label>Product Name</label>
-				<input type="text" id="editName" placeholder="Product name" />
-			</div>
-			<div class="form-group">
-				<label>Price (PHP)</label>
-				<input type="number" id="editPrice" placeholder="0" min="0" />
-			</div>
-			<div class="form-group">
-				<label>Category</label>
-				<select id="editCategory">
-					<option value="Party Games">Party Games</option>
-					<option value="Perya Games">Perya Games</option>
-					<option value="Dices">Dices</option>
-				</select>
-			</div>
-			<div class="edit-actions">
-				<button class="btn-save" id="saveEditBtn">Save</button>
-				<button class="btn-delete" id="deleteEditBtn">Delete</button>
-				<button class="btn-cancel" id="cancelEditBtn">Cancel</button>
-			</div>
-		</div>
 	</div>
 
 	<script>
@@ -1006,123 +955,6 @@
 
 		populateCategories();
 		initTheme();
-		renderProducts();
-
-		// Edit Mode Functionality
-		let editMode = false;
-		let currentEditId = null;
-		const editModal = document.getElementById("editModal");
-		const editToggleBtn = document.getElementById("editToggleBtn");
-		const editImage = document.getElementById("editImage");
-		const editPreview = document.getElementById("editPreview");
-		const editName = document.getElementById("editName");
-		const editPrice = document.getElementById("editPrice");
-		const editCategory = document.getElementById("editCategory");
-		const saveEditBtn = document.getElementById("saveEditBtn");
-		const deleteEditBtn = document.getElementById("deleteEditBtn");
-		const cancelEditBtn = document.getElementById("cancelEditBtn");
-		const PRODUCTS_STORAGE_KEY = "gfour-products";
-
-		function saveProductsToStorage() {
-			localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
-		}
-
-		function loadProductsFromStorage() {
-			const saved = localStorage.getItem(PRODUCTS_STORAGE_KEY);
-			if (saved) {
-				const loaded = JSON.parse(saved);
-				products.splice(0, products.length, ...loaded);
-			}
-		}
-
-		function toggleEditMode() {
-			editMode = !editMode;
-			if (editMode) {
-				editToggleBtn.textContent = "✓ Exit Edit Mode";
-				productGrid.classList.add("edit-mode");
-				document.querySelectorAll(".card").forEach((card) => {
-					card.classList.add("edit-mode");
-					card.addEventListener("click", openEditModal);
-				});
-			} else {
-				editToggleBtn.textContent = "✎ Edit Mode";
-				productGrid.classList.remove("edit-mode");
-				document.querySelectorAll(".card").forEach((card) => {
-					card.classList.remove("edit-mode");
-					card.removeEventListener("click", openEditModal);
-				});
-			}
-		}
-
-		function openEditModal(event) {
-			if (!editMode) return;
-			const card = event.currentTarget;
-			const productId = parseInt(card.dataset.productId);
-			const product = products.find((p) => p.id === productId);
-			if (!product) return;
-
-			currentEditId = productId;
-			editImage.value = product.image;
-			editName.value = product.name;
-			editPrice.value = product.price;
-			editCategory.value = product.category;
-			editPreview.src = product.image;
-			editModal.classList.add("open");
-		}
-
-		function closeEditModal() {
-			editModal.classList.remove("open");
-			currentEditId = null;
-		}
-
-		editImage.addEventListener("input", (e) => {
-			editPreview.src = e.target.value;
-		});
-
-		saveEditBtn.addEventListener("click", () => {
-			const product = products.find((p) => p.id === currentEditId);
-			if (product) {
-				product.image = editImage.value || product.image;
-				product.name = editName.value || product.name;
-				product.price = parseInt(editPrice.value) || product.price;
-				product.category = editCategory.value;
-				saveProductsToStorage();
-				renderProducts();
-				closeEditModal();
-			}
-		});
-
-		deleteEditBtn.addEventListener("click", () => {
-			if (confirm("Delete this product?")) {
-				const index = products.findIndex((p) => p.id === currentEditId);
-				if (index !== -1) {
-					products.splice(index, 1);
-					saveProductsToStorage();
-					renderProducts();
-					closeEditModal();
-				}
-			}
-		});
-
-		cancelEditBtn.addEventListener("click", closeEditModal);
-		editModal.addEventListener("click", (event) => {
-			if (event.target === editModal) {
-				closeEditModal();
-			}
-		});
-
-		editToggleBtn.addEventListener("click", toggleEditMode);
-
-		// Update card rendering to include data attribute
-		const originalCreateCard = createCard;
-		createCard = function (product) {
-			const card = originalCreateCard(product);
-			card.dataset.productId = product.id;
-			return card;
-		};
-
-		// Load products from storage on init
-		loadProductsFromStorage();
 		renderProducts();
 
 		window.addEventListener("load", () => {
