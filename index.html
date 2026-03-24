@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G FOUR ENTERPRISES</title>
+	<style>
+		:root {
+			--bg-main: #ffffff;
+			--bg-overlay: linear-gradient(135deg, #fff5e6 0%, #ffe4f5 25%, #f0e6ff 50%, #e6f5ff 75%, #f5f9ff 100%);
+			--surface: rgba(255, 255, 255, 0.97);
+			--surface-strong: #ffffff;
+			--text-main: #1c1733;
+			--text-muted: #5b5477;
+			--header-bg: rgba(255, 255, 255, 0.92);
+			--border-glow: rgba(255, 82, 171, 0.55);
+			--accent-a: #ff4fb1;
+			--accent-b: #4e7bff;
+			--accent-c: #ffd24b;
+			--shadow-strong: 0 14px 34px rgba(70, 45, 120, 0.15);
+			--input-bg: #ffffff;
+			--button-text: #ffffff;
+		}
+
+		body.dark {
+			--bg-main: #1a1f2e;
+			--bg-overlay: linear-gradient(135deg, #1a1f2e 0%, #242b3a 100%);
+			--surface: rgba(30, 35, 50, 0.95);
+			--surface-strong: #242b3a;
+			--text-main: #f8f4ff;
+			--text-muted: #c3b8e6;
+			--header-bg: rgba(16, 12, 30, 0.82);
+			--border-glow: rgba(255, 214, 77, 0.55);
+			--shadow-strong: 0 16px 38px rgba(0, 0, 0, 0.45);
+			--input-bg: #251d45;
+			--button-text: #170d2d;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			background: var(--bg-main);
+			background-image: var(--bg-overlay);
+			color: var(--text-main);
+			min-height: 100vh;
+			transition: background-color 0.35s ease, color 0.35s ease;
+			overflow-x: hidden;
+			position: relative;
+		}
+
+		.app {
+			position: relative;
+			z-index: 1;
+			max-width: 1220px;
+			margin: 0 auto;
+			padding: 0 1rem 2rem;
+		}
+
+		.header {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			backdrop-filter: blur(12px);
+			background: var(--header-bg);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+			margin: 0 -1rem;
+			padding: 0.85rem 1rem;
+			transition: background-color 0.35s ease;
+		}
+
+		.header-inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			max-width: 1220px;
+			margin: 0 auto;
+			flex-wrap: wrap;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 0.7rem;
+			min-width: 240px;
+		}
+
+		.brand-badge {
+			width: 56px;
+			height: 56px;
+			border-radius: 8px;
+			flex-shrink: 0;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			position: relative;
+			background: white;
+			padding: 2px;
+		}
+		
+		.brand-badge img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			padding: 4px;
+		}
+
+		.brand h1 {
+			font-size: 1.22rem;
+			line-height: 1.2;
+			letter-spacing: 0.4px;
+		}
+
+		.subtitle {
+			font-size: 0.78rem;
+			color: var(--text-muted);
+			margin-top: 0.12rem;
+		}
+
+		.controls {
+			display: flex;
+			align-items: center;
+			gap: 0.65rem;
+			flex-wrap: wrap;
+		}
+
+		.input,
+		.select {
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			background: var(--input-bg);
+			color: var(--text-main);
+			padding: 0.58rem 0.78rem;
+			border-radius: 10px;
+			min-height: 40px;
+			min-width: 180px;
+			outline: none;
+			box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+			transition: border-color 0.25s ease, box-shadow 0.25s ease;
+		}
+
+		.input:focus,
+		.select:focus {
+			border-color: var(--accent-a);
+			box-shadow: 0 0 0 2px rgba(255, 79, 177, 0.2);
+		}
+
+		.toggle-wrap {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.38rem 0.6rem;
+			border-radius: 999px;
+			background: var(--surface);
+			box-shadow: var(--shadow-strong);
+			border: 1px solid rgba(255, 255, 255, 0.14);
+		}
+
+		.toggle {
+			position: relative;
+			width: 54px;
+			height: 30px;
+			border-radius: 999px;
+			border: 0;
+			cursor: pointer;
+			background: linear-gradient(120deg, #d7c8ff, #ffc1e7);
+			transition: background 0.3s ease;
+		}
+
+		body.dark .toggle {
+			background: linear-gradient(120deg, #5730a1, #1f4ed8);
+		}
+
+		.toggle::before {
+			content: "";
+			position: absolute;
+			width: 22px;
+			height: 22px;
+			left: 4px;
+			top: 4px;
+			border-radius: 50%;
+			background: #fff;
+			transition: transform 0.28s ease;
+		}
+
+		body.dark .toggle::before {
+			transform: translateX(24px);
+		}
+
+		.main {
+			padding-top: 1.2rem;
+		}
+
+		.hero {
+			background: var(--surface);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			border-radius: 18px;
+			box-shadow: var(--shadow-strong);
+			padding: 1.2rem;
+			margin-bottom: 1rem;
+		}
+
+		.hero h2 {
+			font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+			margin-bottom: 0.4rem;
+		}
+
+		.hero p {
+			color: var(--text-muted);
+			font-size: 0.96rem;
+		}
+
+		.stats {
+			margin-top: 0.8rem;
+			font-size: 0.9rem;
+			color: var(--text-muted);
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+			gap: 1rem;
+		}
+
+		.card {
+			background: var(--surface-strong);
+			border-radius: 15px;
+			overflow: hidden;
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			box-shadow: var(--shadow-strong);
+			transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			min-height: 100%;
+		}
+
+		.card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 15px;
+			pointer-events: none;
+			border: 1px solid transparent;
+			transition: border-color 0.22s ease;
+		}
+
+		.card:hover {
+			transform: translateY(-6px) scale(1.02);
+			box-shadow: 0 18px 35px rgba(255, 92, 173, 0.28);
+			border-color: var(--border-glow);
+		}
+
+		.card:hover::before {
+			border-color: var(--border-glow);
+		}
+
+		.thumb {
+			width: 100%;
+			aspect-ratio: 1 / 1;
+			object-fit: cover;
+			display: block;
+			cursor: pointer;
+		}
+
+		.card-body {
+			padding: 0.82rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.62rem;
+			flex-grow: 1;
+		}
+
+		.name {
+			font-size: 0.95rem;
+			font-weight: 700;
+			line-height: 1.35;
+			min-height: 2.5em;
+		}
+
+		.category-tag {
+			width: fit-content;
+			font-size: 0.72rem;
+			padding: 0.22rem 0.5rem;
+			border-radius: 999px;
+			background: rgba(255, 209, 76, 0.2);
+			color: var(--text-main);
+			font-weight: 600;
+			border: 1px solid rgba(255, 210, 75, 0.4);
+		}
+
+		.price {
+			font-weight: 800;
+			font-size: 1.15rem;
+			color: #FF1493;
+			letter-spacing: 0.3px;
+		}
+
+		.actions {
+			display: flex;
+			gap: 0.5rem;
+			margin-top: auto;
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			text-decoration: none;
+			border: 0;
+			cursor: pointer;
+			min-height: 40px;
+			border-radius: 10px;
+			padding: 0.56rem 0.72rem;
+			font-weight: 700;
+			transition: transform 0.2s ease, opacity 0.2s ease;
+			flex: 1;
+		}
+
+		.btn:hover {
+			transform: translateY(-1px);
+			opacity: 0.95;
+		}
+
+		.btn-primary {
+			background: #5865F2;
+			color: #fff;
+			box-shadow: none;
+			border: none;
+		}
+
+		.btn-primary:hover {
+			background: #4752C4;
+		}
+
+		.btn-alt {
+			background: #FFA500;
+			color: #fff;
+		}
+
+		.btn-alt:hover {
+			background: #FF8C00;
+		}
+
+		.empty-state {
+			text-align: center;
+			color: var(--text-muted);
+			padding: 2rem 1rem;
+			border-radius: 12px;
+			background: var(--surface);
+			border: 1px dashed rgba(255, 255, 255, 0.2);
+		}
+
+		.loading-screen {
+			position: fixed;
+			inset: 0;
+			z-index: 100;
+			display: grid;
+			place-items: center;
+			background: linear-gradient(120deg, #220f44, #0c1d45);
+			color: #fff;
+			transition: opacity 0.45s ease, visibility 0.45s ease;
+		}
+
+		.loading-screen.hide {
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		.spinner {
+			width: 68px;
+			height: 68px;
+			border-radius: 50%;
+			border: 7px solid rgba(255, 255, 255, 0.24);
+			border-top-color: #ff5cb1;
+			border-right-color: #ffd24b;
+			animation: spin 1.15s linear infinite;
+			margin: 0 auto 0.85rem;
+			box-shadow: 0 0 20px rgba(255, 92, 177, 0.45);
+		}
+
+		@keyframes spin {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+
+		.modal {
+			position: fixed;
+			inset: 0;
+			z-index: 120;
+			display: none;
+			place-items: center;
+			padding: 1rem;
+			background: rgba(3, 3, 6, 0.7);
+			backdrop-filter: blur(4px);
+		}
+
+		.modal.open {
+			display: grid;
+			animation: fadeIn 0.2s ease;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		.modal-card {
+			width: min(92vw, 760px);
+			background: var(--surface-strong);
+			border-radius: 16px;
+			overflow: hidden;
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			box-shadow: var(--shadow-strong);
+			display: grid;
+			grid-template-columns: 1.1fr 1fr;
+		}
+
+		.modal-image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			min-height: 290px;
+		}
+
+		.modal-body {
+			padding: 1rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.8rem;
+		}
+
+		.modal-close {
+			margin-left: auto;
+			border: 0;
+			background: transparent;
+			color: var(--text-main);
+			font-size: 1.55rem;
+			cursor: pointer;
+			line-height: 1;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.edit-btn {
+			background: linear-gradient(90deg, var(--accent-c), #ff9f4f);
+			color: var(--button-text);
+			border: 0;
+			padding: 0.58rem 0.85rem;
+			border-radius: 10px;
+			cursor: pointer;
+			font-weight: 700;
+			transition: transform 0.2s ease, opacity 0.2s ease;
+			min-height: 40px;
+		}
+
+		.edit-btn:hover {
+			transform: translateY(-1px);
+			opacity: 0.95;
+		}
+
+		.card.edit-mode {
+			cursor: pointer;
+			border-color: var(--accent-c);
+			background: rgba(255, 210, 75, 0.08);
+		}
+
+		.card.edit-mode::after {
+			content: "✎ Click to edit";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: var(--accent-c);
+			color: var(--button-text);
+			padding: 0.5rem 1rem;
+			border-radius: 8px;
+			font-weight: 700;
+			z-index: 10;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+		}
+
+		.card.edit-mode:hover::after {
+			opacity: 1;
+		}
+
+		.edit-modal {
+			position: fixed;
+			inset: 0;
+			z-index: 130;
+			display: none;
+			place-items: center;
+			padding: 1rem;
+			background: rgba(3, 3, 6, 0.8);
+			backdrop-filter: blur(6px);
+		}
+
+		.edit-modal.open {
+			display: grid;
+			animation: fadeIn 0.2s ease;
+		}
+
+		.edit-form {
+			width: min(92vw, 600px);
+			background: var(--surface-strong);
+			border-radius: 16px;
+			overflow: hidden;
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			box-shadow: var(--shadow-strong);
+			padding: 1.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.edit-form h3 {
+			margin-bottom: 0.5rem;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+		}
+
+		.form-group label {
+			font-weight: 700;
+			font-size: 0.9rem;
+			color: var(--text-muted);
+		}
+
+		.form-group input,
+		.form-group select {
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			background: var(--input-bg);
+			color: var(--text-main);
+			padding: 0.6rem 0.75rem;
+			border-radius: 10px;
+			outline: none;
+			font-size: 0.95rem;
+			transition: border-color 0.25s ease;
+		}
+
+		.form-group input:focus,
+		.form-group select:focus {
+			border-color: var(--accent-a);
+		}
+
+		.edit-preview {
+			width: 100%;
+			height: 180px;
+			border-radius: 10px;
+			object-fit: cover;
+			border: 1px solid rgba(255, 255, 255, 0.15);
+		}
+
+		.edit-actions {
+			display: flex;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+		}
+
+		.edit-actions button {
+			flex: 1;
+			padding: 0.6rem;
+			border: 0;
+			border-radius: 10px;
+			font-weight: 700;
+			cursor: pointer;
+			transition: transform 0.2s ease;
+		}
+
+		.edit-actions button:hover {
+			transform: translateY(-1px);
+		}
+
+		.btn-save {
+			background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+			color: #fff;
+		}
+
+		.btn-delete {
+			background: #ff6b6b;
+			color: #fff;
+		}
+
+		.btn-cancel {
+			background: var(--text-muted);
+			color: #fff;
+		}
+
+		@media (max-width: 780px) {
+			.header-inner {
+				justify-content: center;
+			}
+
+			.brand {
+				justify-content: center;
+				width: 100%;
+			}
+
+			.controls {
+				justify-content: center;
+			}
+
+			.input,
+			.select {
+				min-width: 140px;
+				width: 100%;
+			}
+
+			.controls {
+				width: 100%;
+			}
+
+			.modal-card {
+				grid-template-columns: 1fr;
+			}
+
+			.modal-image {
+				min-height: 230px;
+			}
+
+			.actions {
+				flex-direction: column;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="loading-screen" id="loadingScreen" aria-live="polite">
+		<div>
+			<div class="spinner"></div>
+			<p>Lighting up the Perya Shop...</p>
+		</div>
+	</div>
+
+		<div class="app">
+			<header class="header">
+				<div class="header-inner">
+					<div class="brand">
+						<div class="brand-badge">
+							<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" width="56" height="56" preserveAspectRatio="xMidYMid meet">
+								<!-- Yellow-Green top left -->
+								<polygon points="75,75 150,0 150,75 75,75" fill="#D4E157"/>
+								<!-- Green diagonal -->
+								<polygon points="75,75 150,75 50,150" fill="#7CB342"/>
+								<!-- Dark Green left -->
+								<polygon points="75,150 50,150 50,225 75,225" fill="#558B2F"/>
+								<!-- Light Green left -->
+								<polygon points="75,150 150,150 75,225" fill="#9CCC65"/>
+								<!-- Yellow bottom left -->
+								<polygon points="50,225 150,225 75,300 50,300" fill="#FDD835"/>
+								<!-- Orange bottom left -->
+								<polygon points="75,300 150,225 150,300" fill="#FF9800"/>
+								<!-- Light Blue top -->
+								<polygon points="150,0 225,0 150,75" fill="#4FC3F7"/>
+								<!-- Blue top -->
+								<polygon points="150,75 225,0 225,75" fill="#0277BD"/>
+								<!-- Dark Blue right -->
+								<polygon points="225,0 300,0 225,75" fill="#01579B"/>
+								<!-- Blue right -->
+								<polygon points="225,75 300,75 225,150" fill="#1565C0"/>
+								<!-- Blue middle -->
+								<polygon points="150,150 225,75 225,150" fill="#1565C0"/>
+								<!-- Maroon bottom right -->
+								<polygon points="150,150 225,150 200,225" fill="#8B1538"/>
+								<!-- Pink right -->
+								<polygon points="200,225 225,150 300,150 300,225" fill="#E91E63"/>
+								<!-- Hot Pink bottom right -->
+								<polygon points="200,225 300,225 300,300" fill="#FF1493"/>
+								<!-- Orange bottom -->
+								<polygon points="150,225 200,225 150,300 150,300" fill="#FF7043"/>
+								<!-- Deep Orange bottom -->
+								<polygon points="200,225 150,300 300,300 300,225" fill="#FF6F00"/>
+							</svg>
+						</div>
+						<div>
+              <h1>G FOUR ENTERPRISES</h1>
+              <p class="subtitle">Perya Games • Party Games • Dices</p>
+				<div class="controls">
+					<input
+						class="input"
+						id="searchInput"
+						type="search"
+						placeholder="Search products..."
+						aria-label="Search products"
+					/>
+					<select class="select" id="categorySelect" aria-label="Filter by category">
+						<option value="all">All Categories</option>
+					</select>
+					<button class="edit-btn" id="editToggleBtn" type="button">✎ Edit Mode</button>
+					<label class="toggle-wrap" for="themeToggle">
+						<span id="themeLabel">Light</span>
+						<button class="toggle" id="themeToggle" type="button" aria-label="Toggle dark mode"></button>
+					</label>
+				</div>
+			</div>
+		</header>
+
+		<main class="main">
+			<section class="hero">
+        <h2>G FOUR ENTERPRISES Products</h2>
+        <p>
+          Premium party games, perya games, and dices for Filipino celebrations and gatherings.
+				<p class="stats" id="resultsCount">Loading products...</p>
+			</section>
+
+			<section id="productGrid" class="grid" aria-live="polite"></section>
+			<section id="emptyState" class="empty-state hidden">
+				No products found for your search.
+			</section>
+		</main>
+	</div>
+
+	<div class="modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+		<article class="modal-card">
+			<img id="modalImage" class="modal-image" src="" alt="Product preview" />
+			<div class="modal-body">
+				<button class="modal-close" id="modalClose" type="button" aria-label="Close preview">x</button>
+				<h3 id="modalTitle"></h3>
+				<p id="modalCategory" class="category-tag"></p>
+				<p id="modalPrice" class="price"></p>
+				<p style="color: var(--text-muted);">Quick preview mode. Open Shopee for full details and checkout.</p>
+				<a id="modalLink" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">View on Shopee</a>
+			</div>
+		</article>
+	</div>
+
+	<div class="edit-modal" id="editModal">
+		<div class="edit-form">
+			<h3>Edit Product</h3>
+			<div class="form-group">
+				<label>Image URL</label>
+				<input type="text" id="editImage" placeholder="https://example.com/image.jpg" />
+				<img id="editPreview" class="edit-preview" src="" alt="Preview" />
+			</div>
+			<div class="form-group">
+				<label>Product Name</label>
+				<input type="text" id="editName" placeholder="Product name" />
+			</div>
+			<div class="form-group">
+				<label>Price (PHP)</label>
+				<input type="number" id="editPrice" placeholder="0" min="0" />
+			</div>
+			<div class="form-group">
+				<label>Category</label>
+				<select id="editCategory">
+					<option value="Party Games">Party Games</option>
+					<option value="Perya Games">Perya Games</option>
+					<option value="Dices">Dices</option>
+				</select>
+			</div>
+			<div class="edit-actions">
+				<button class="btn-save" id="saveEditBtn">Save</button>
+				<button class="btn-delete" id="deleteEditBtn">Delete</button>
+				<button class="btn-cancel" id="cancelEditBtn">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+// Sample product data - G FOUR ENTERPRISES products
+    const products = [
+      {
+        id: 1,
+        name: "Shot and Ladder Drinking Game",
+        price: 139,
+        category: "Party Games",
+        image: "https://images.unsplash.com/photo-1570303008902-5f4c01d834de?auto=format&fit=crop&w=800&q=80",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 2,
+        name: "Mini Color Game Board Perya Set",
+        price: 269,
+        category: "Perya Games",
+        image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&q=80",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 3,
+        name: "Color Game BIG Tarp - Large Mat for Color Game",
+        price: 174,
+        category: "Perya Games",
+        image: "https://images.unsplash.com/photo-1570303008902-5f4c01d834de?auto=format&fit=crop&w=800&q=80",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 4,
+        name: "Premium Colored Dices Set",
+        price: 89,
+        category: "Dices",
+        image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&q=80",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 5,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Party Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 6,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Perya Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 7,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Dices",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 8,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Party Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 9,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Perya Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 10,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Dices",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 11,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Party Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      },
+      {
+        id: 12,
+        name: "Add Your Product Here",
+        price: 0,
+        category: "Perya Games",
+        image: "https://via.placeholder.com/300x300?text=Add+Product",
+        link: "https://shopee.ph/g4printing1?categoryId=100639&entryPoint=ShopByPDP&itemId=29941467400&upstream=search"
+      }
+    ];
+
+		const THEME_KEY = "fourg-theme";
+
+		const productGrid = document.getElementById("productGrid");
+		const emptyState = document.getElementById("emptyState");
+		const searchInput = document.getElementById("searchInput");
+		const categorySelect = document.getElementById("categorySelect");
+		const resultsCount = document.getElementById("resultsCount");
+		const themeToggle = document.getElementById("themeToggle");
+		const themeLabel = document.getElementById("themeLabel");
+		const modal = document.getElementById("productModal");
+		const modalImage = document.getElementById("modalImage");
+		const modalTitle = document.getElementById("modalTitle");
+		const modalCategory = document.getElementById("modalCategory");
+		const modalPrice = document.getElementById("modalPrice");
+		const modalLink = document.getElementById("modalLink");
+		const modalClose = document.getElementById("modalClose");
+
+		function formatPrice(value) {
+			return `PHP ${value.toLocaleString()}`;
+		}
+
+		function populateCategories() {
+			const categories = [...new Set(products.map((item) => item.category))].sort();
+			categories.forEach((category) => {
+				const option = document.createElement("option");
+				option.value = category;
+				option.textContent = category;
+				categorySelect.appendChild(option);
+			});
+		}
+
+		function openModal(product) {
+			modalImage.src = product.image;
+			modalImage.alt = product.name;
+			modalTitle.textContent = product.name;
+			modalCategory.textContent = product.category;
+			modalPrice.textContent = formatPrice(product.price);
+			modalLink.href = product.link;
+			modal.classList.add("open");
+			document.body.style.overflow = "hidden";
+		}
+
+		function closeModal() {
+			modal.classList.remove("open");
+			document.body.style.overflow = "";
+		}
+
+		function createCard(product) {
+			const card = document.createElement("article");
+			card.className = "card";
+			card.innerHTML = `
+				<img class="thumb" src="${product.image}" alt="${product.name}" loading="lazy" />
+				<div class="card-body">
+					<h3 class="name">${product.name}</h3>
+					<p class="category-tag">${product.category}</p>
+					<p class="price">${formatPrice(product.price)}</p>
+					<div class="actions">
+						<button class="btn btn-alt" type="button">Preview</button>
+						<a class="btn btn-primary" href="${product.link}" target="_blank" rel="noopener noreferrer">View on Shopee</a>
+					</div>
+				</div>
+			`;
+
+			const image = card.querySelector(".thumb");
+			const previewButton = card.querySelector(".btn-alt");
+			image.addEventListener("click", () => openModal(product));
+			previewButton.addEventListener("click", () => openModal(product));
+
+			return card;
+		}
+
+		function renderProducts() {
+			const query = searchInput.value.trim().toLowerCase();
+			const category = categorySelect.value;
+
+			const filtered = products.filter((product) => {
+				const matchesSearch = product.name.toLowerCase().includes(query);
+				const matchesCategory = category === "all" || product.category === category;
+				return matchesSearch && matchesCategory;
+			});
+
+			productGrid.innerHTML = "";
+
+			if (!filtered.length) {
+				emptyState.classList.remove("hidden");
+			} else {
+				emptyState.classList.add("hidden");
+				filtered.forEach((product) => {
+					productGrid.appendChild(createCard(product));
+				});
+			}
+
+			resultsCount.textContent = `${filtered.length} item(s) shown out of ${products.length} total.`;
+		}
+
+		function setTheme(mode) {
+			const isDark = mode === "dark";
+			document.body.classList.toggle("dark", isDark);
+			themeLabel.textContent = isDark ? "Dark" : "Light";
+			localStorage.setItem(THEME_KEY, mode);
+		}
+
+		function initTheme() {
+			const saved = localStorage.getItem(THEME_KEY);
+			setTheme(saved === "dark" ? "dark" : "light");
+		}
+
+		searchInput.addEventListener("input", renderProducts);
+		categorySelect.addEventListener("change", renderProducts);
+		themeToggle.addEventListener("click", () => {
+			const nextMode = document.body.classList.contains("dark") ? "light" : "dark";
+			setTheme(nextMode);
+		});
+
+		modalClose.addEventListener("click", closeModal);
+		modal.addEventListener("click", (event) => {
+			if (event.target === modal) {
+				closeModal();
+			}
+		});
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && modal.classList.contains("open")) {
+				closeModal();
+			}
+		});
+
+		populateCategories();
+		initTheme();
+		renderProducts();
+
+		// Edit Mode Functionality
+		let editMode = false;
+		let currentEditId = null;
+		const editModal = document.getElementById("editModal");
+		const editToggleBtn = document.getElementById("editToggleBtn");
+		const editImage = document.getElementById("editImage");
+		const editPreview = document.getElementById("editPreview");
+		const editName = document.getElementById("editName");
+		const editPrice = document.getElementById("editPrice");
+		const editCategory = document.getElementById("editCategory");
+		const saveEditBtn = document.getElementById("saveEditBtn");
+		const deleteEditBtn = document.getElementById("deleteEditBtn");
+		const cancelEditBtn = document.getElementById("cancelEditBtn");
+		const PRODUCTS_STORAGE_KEY = "gfour-products";
+
+		function saveProductsToStorage() {
+			localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
+		}
+
+		function loadProductsFromStorage() {
+			const saved = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+			if (saved) {
+				const loaded = JSON.parse(saved);
+				products.splice(0, products.length, ...loaded);
+			}
+		}
+
+		function toggleEditMode() {
+			editMode = !editMode;
+			if (editMode) {
+				editToggleBtn.textContent = "✓ Exit Edit Mode";
+				productGrid.classList.add("edit-mode");
+				document.querySelectorAll(".card").forEach((card) => {
+					card.classList.add("edit-mode");
+					card.addEventListener("click", openEditModal);
+				});
+			} else {
+				editToggleBtn.textContent = "✎ Edit Mode";
+				productGrid.classList.remove("edit-mode");
+				document.querySelectorAll(".card").forEach((card) => {
+					card.classList.remove("edit-mode");
+					card.removeEventListener("click", openEditModal);
+				});
+			}
+		}
+
+		function openEditModal(event) {
+			if (!editMode) return;
+			const card = event.currentTarget;
+			const productId = parseInt(card.dataset.productId);
+			const product = products.find((p) => p.id === productId);
+			if (!product) return;
+
+			currentEditId = productId;
+			editImage.value = product.image;
+			editName.value = product.name;
+			editPrice.value = product.price;
+			editCategory.value = product.category;
+			editPreview.src = product.image;
+			editModal.classList.add("open");
+		}
+
+		function closeEditModal() {
+			editModal.classList.remove("open");
+			currentEditId = null;
+		}
+
+		editImage.addEventListener("input", (e) => {
+			editPreview.src = e.target.value;
+		});
+
+		saveEditBtn.addEventListener("click", () => {
+			const product = products.find((p) => p.id === currentEditId);
+			if (product) {
+				product.image = editImage.value || product.image;
+				product.name = editName.value || product.name;
+				product.price = parseInt(editPrice.value) || product.price;
+				product.category = editCategory.value;
+				saveProductsToStorage();
+				renderProducts();
+				closeEditModal();
+			}
+		});
+
+		deleteEditBtn.addEventListener("click", () => {
+			if (confirm("Delete this product?")) {
+				const index = products.findIndex((p) => p.id === currentEditId);
+				if (index !== -1) {
+					products.splice(index, 1);
+					saveProductsToStorage();
+					renderProducts();
+					closeEditModal();
+				}
+			}
+		});
+
+		cancelEditBtn.addEventListener("click", closeEditModal);
+		editModal.addEventListener("click", (event) => {
+			if (event.target === editModal) {
+				closeEditModal();
+			}
+		});
+
+		editToggleBtn.addEventListener("click", toggleEditMode);
+
+		// Update card rendering to include data attribute
+		const originalCreateCard = createCard;
+		createCard = function (product) {
+			const card = originalCreateCard(product);
+			card.dataset.productId = product.id;
+			return card;
+		};
+
+		// Load products from storage on init
+		loadProductsFromStorage();
+		renderProducts();
+
+		window.addEventListener("load", () => {
+			setTimeout(() => {
+				document.getElementById("loadingScreen").classList.add("hide");
+			}, 100);
+		});
+	</script>
+</body>
+</html>
